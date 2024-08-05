@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Avaliação 3bim PW</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        width: auto;
+        min-height: 100vh;
+        font-family: "Open Sans", sans-serif;
+      }
+
+      /* img {
+        display: block;
+        aspect-ratio: 1;
+        max-width: 150px;
+      } */
+
+      .product-card {
+        background-color: red;
+        width: max(10rem, 15rem);
+        aspect-ratio: 1/1.5;
+        position: relative;
+        border: none;
+        border-radius: 16px;
+      }
+      .product-card > * {
+        position: absolute;
+      }
+      .product-card > h2 {
+        text-transform: capitalize;
+        width: 80%;
+        text-align: center;
+        top: 5%;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 1.7rem;
+        font-weight: 600;
+      }
+      .product-card > p {
+        background-color: blue;
+        width: 80%;
+        text-align: center;
+        overflow-wrap: break-word;
+        top: 15%;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Loja de Roupas</h1>
+    <form>
+      <input type="text" id="inUrl" placeholder="Imagem (url)" />
+      <input type="text" id="inName" required placeholder="Nome" />
+      <input type="text" id="inDesc" required placeholder="Descrição" />
+      <input
+        type="number"
+        id="inPrice"
+        step="0.01"
+        required
+        placeholder="Preço"
+      />
+      <button type="submit">Adicionar</button>
+    </form>
+    <ul id="products"></ul>
+    <h1>Meu Carrinho</h1>
+    <ul id="shopCart"></ul>
+  </body>
+  <script>
+    // código ...
+    const frm = document.querySelector("form");
+    const prodList = document.getElementById("products");
+    const shopCart = document.getElementById("shopCart");
+
+    const list = JSON.parse(localStorage.getItem("localProductList")) || [];
+    const shopList = JSON.parse(localStorage.getItem("localShopList")) || [];
+
+    // Função que salva a lista no localStorage do navegador -------------------
+    function saveToLocalStorage() {
+      localStorage.setItem("localProductList", JSON.stringify(list));
+    }
+    function saveCartToLocalStorage() {
+      localStorage.setItem("localShopList", JSON.stringify(shopList));
+    }
+    // Função que carrega os produtos já cadastrados ---------------------------
+    window.addEventListener("load", () => {
+      list.forEach((product) => {
+        addProduct(product, prodList);
+      });
+      shopList.forEach((product) => {
+        addProduct(product, shopCart);
+      });
+    });
+    // Ouvinte do Formulário ---------------------------------------------------
+    frm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const product = {
+        id: Date.now().toString(),
+        name: frm.inName.value,
+        desc: frm.inDesc.value,
+        price: Number(frm.inPrice.value),
+        url: frm.inUrl.value === "" ? "/public/blank.png" : frm.inUrl.value,
+      };
+      list.push(product);
+      saveToLocalStorage();
+      addProduct(product, prodList);
+      //Limpando o Form após envio dos dados
+      frm.inName.value = "";
+      frm.inDesc.value = "";
+      frm.inPrice.value = "";
+    });
+    // Função que adiciona o produto à lista -----------------------------------
+    function addProduct(prod, arr) {
+      const newProd = document.createElement("li");
+      newProd.classList.add("product-card");
+      //Product-Card Props ----------------------------//
+      const prodName = document.createElement("h2");
+      prodName.textContent = prod.name;
+      newProd.appendChild(prodName);
+
+      const prodDesc = document.createElement("p");
+      prodDesc.textContent = prod.desc;
+      newProd.appendChild(prodDesc);
+
+      const prodPrice = document.createElement("span");
+      prodPrice.textContent = `Por R$${prod.price.toFixed(2)}`;
+      newProd.appendChild(prodPrice);
+
+      const prodImg = document.createElement("img");
+      prodImg.src = prod.url;
+      prodImg.alt = prod.name;
+      newProd.appendChild(prodImg);
+
+      const removeBtn = document.createElement("button");
+      removeBtn.innerHTML =
+        arr !== shopCart
+          ? '<i class="fa fa-x"></i>'
+          : '<i class="fa fa-x"></i> Remove';
+      removeBtn.addEventListener("click", () => {
+        arr === prodList
+          ? handleDelete(newProd, prod.id)
+          : handleCartDelete(newProd, prod.id);
+      });
+      newProd.appendChild(removeBtn);
+
+      if (arr !== shopCart) {
+        const buyBtn = document.createElement("button");
+        buyBtn.innerHTML =
+          '<i class="fa-solid fa-cart-shopping"></i> Add to Cart';
+        buyBtn.addEventListener("click", () => {
+          addProductToCart(prod);
+        });
+        newProd.appendChild(buyBtn);
+      }
+
+      arr.appendChild(newProd);
+    }
+    // Função que remove um produto da lista -----------------------------------
+    function handleDelete(product, idToRemove) {
+      const index = list.findIndex((el) => el.id === idToRemove);
+      list.splice(index, 1);
+
+      saveToLocalStorage();
+      prodList.removeChild(product);
+    }
+    function handleCartDelete(product, idToRemove) {
+      const index = shopList.findIndex((el) => el.id === idToRemove);
+      shopList.splice(index, 1);
+
+      saveCartToLocalStorage();
+      shopCart.removeChild(product);
+    }
+    // Função que adiciona um produto ao carrinho ------------------------------
+    function addProductToCart(product) {
+      const exists = shopList.find((prod) => prod.id === product.id);
+      if (exists) {
+        return;
+      }
+      shopList.push(product);
+      saveCartToLocalStorage();
+      addProduct(product, shopCart);
+    }
+    //--------------------------------------------------------------------------
+  </script>
+</html>
