@@ -109,12 +109,15 @@
         flex-wrap: nowrap;
         column-gap: 1rem;
       }
-      .header-content > .navigate > a {
+      .header-content > .navigate > button {
+        background: none;
+        border: none;
         color: rgb(0, 0, 0);
         font-size: 1.2rem;
         transition: all 250ms ease-out;
+        cursor: pointer;
       }
-      .header-content > .navigate > a:hover {
+      .header-content > .navigate > button:hover {
         opacity: 0.5;
       }
 
@@ -166,7 +169,8 @@
         display: flex;
         flex-direction: column;
         flex-wrap: nowrap;
-        width: 15rem;
+
+        max-width: 15rem;
         aspect-ratio: 1/1.5;
         transition: all 200ms ease-out;
       }
@@ -184,19 +188,25 @@
       }
 
       .product-card > h2 {
+        width: 100%;
         margin: 1rem auto;
         margin-bottom: 0.2rem;
         text-transform: capitalize;
         font-weight: 400;
         letter-spacing: 5px;
         color: black;
+        text-align: center;
+
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
       }
 
       .product-card > p {
         text-align: center;
         font-size: 0.8rem;
         color: rgba(0, 0, 0, 0.7);
-        padding: 0 1rem;
+        padding: 0 0.5rem;
       }
 
       .product-card > span {
@@ -206,7 +216,7 @@
         color: black;
       }
       .product-card > button {
-        padding: 0.6rem 1rem;
+        padding: 0.6rem 0;
         border: none;
         border-radius: 1rem;
         cursor: pointer;
@@ -220,7 +230,6 @@
         background-color: orangered;
         color: white;
       }
-
       /* Product Card End */
 
       /* main sections */
@@ -248,6 +257,53 @@
         gap: 1rem;
       }
       /* main sections end */
+
+      /* Announce & Cart section */
+      #fade {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        backdrop-filter: blur(10px);
+        z-index: 5;
+      }
+
+      #shop,
+      #announce {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 500px;
+        max-width: 90%;
+        background-color: #fff;
+        box-shadow: 0 0 10px black;
+        padding: 1.2rem;
+        border-radius: 0.5rem;
+        z-index: 10;
+      }
+
+      #fade,
+      #shop,
+      #announce {
+        transition: 0.5s;
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      #shop.hidden,
+      #announce.hidden,
+      #fade.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      #shop.hidden,
+      #announce.hidden {
+        top: 0;
+      }
+      /* Announce & Cart section End */
     </style>
   </head>
   <body>
@@ -264,21 +320,21 @@
           <i class="fa fa-magnifying-glass"></i>
         </div>
         <div class="navigate">
-          <a href="#announce">
+          <button id="open-announce">
             <i class="fa fa-plus"></i>
-          </a>
+          </button>
           <hr />
-          <a href="#shop">
+          <button id="open-shop">
             <i class="fa-solid fa-cart-shopping"></i>
-          </a>
+          </button>
         </div>
       </div>
       <nav>
         <ul class="navbar">
           <li><a href="#section-camiseta">Camiseta</a></li>
-          <li><a href="#section-jaqueta">Jaqueta</a></li>
-          <li><a href="#section-calca">Calça</a></li>
-          <li><a href="#section-tenis">Tênis</a></li>
+          <li><a href="#section-jaqueta">Casacos</a></li>
+          <li><a href="#section-calca">Calças</a></li>
+          <li><a href="#section-tenis">Calçados</a></li>
         </ul>
       </nav>
       <img class="hero" src="/public/slider1.png" alt="hero" />
@@ -297,7 +353,7 @@
       </section>
       <!-- Jaquetas -->
       <section class="prod-section" id="section-jaqueta">
-        <h1 class="title">Jaquetas</h1>
+        <h1 class="title">Casaco</h1>
         <ul id="prod-jaqueta"></ul>
       </section>
       <!-- Calças -->
@@ -307,27 +363,40 @@
       </section>
       <!-- Tênis -->
       <section class="prod-section" id="section-tenis">
-        <h1 class="title">Tênis</h1>
+        <h1 class="title">Calçados</h1>
         <ul id="prod-tenis"></ul>
       </section>
     </main>
 
-    <div class="cart" id="shop">
+    <div id="fade" class="hidden"></div>
+
+    <div class="cart hidden" id="shop">
       <h1>Seu Carrinho:</h1>
       <ul id="shopCart"></ul>
+      <button id="close-shop">
+        <i class="fa fa-x"></i>
+        Fechar
+      </button>
     </div>
-    <div class="announce-product" id="announce">
+
+    <div class="announce-product hidden" id="announce">
       <h1>Anúncie seu produto</h1>
       <form>
         <input type="text" id="inUrl" placeholder="Imagem (url)" />
         <input type="text" id="inName" required placeholder="Nome" />
-        <input type="text" id="inDesc" required placeholder="Descrição" />
+        <textarea
+          type="text"
+          id="inDesc"
+          required
+          placeholder="Descrição (50 caracteres)"
+          maxlength="50"
+        ></textarea>
         <select name="category" id="inCategory" required>
           <option value="" disabled selected>Categoria</option>
           <option value="prod-camiseta">Camiseta</option>
-          <option value="prod-jaqueta">Jaqueta</option>
+          <option value="prod-jaqueta">Casaco</option>
           <option value="prod-calca">Calça</option>
-          <option value="prod-tenis">Tênis</option>
+          <option value="prod-tenis">Calçado</option>
         </select>
         <input
           type="number"
@@ -338,9 +407,15 @@
         />
         <button type="submit">Adicionar</button>
       </form>
+      <button id="close-announce">
+        <i class="fa fa-x"></i>
+        Fechar
+      </button>
     </div>
   </body>
-  <script>
+  <script type="module">
+    import { baseProducts } from "./products.js";
+
     const frm = document.querySelector("form");
     const categories = [
       "prod-camiseta",
@@ -350,49 +425,8 @@
     ];
 
     const shopList = JSON.parse(localStorage.getItem("localShopList")) || [];
-    const list = JSON.parse(localStorage.getItem("localProductList")) || [
-      {
-        category: "prod-camiseta",
-        desc: "amarela",
-        id: "1723171207457",
-        name: "camiseta",
-        price: 12,
-        url: "https://plus.unsplash.com/premium_photo-1693161218349-87523b0605ab?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      },
-      {
-        category: "prod-camiseta",
-        desc: "branca",
-        id: "1723171251129",
-        name: "camiseta",
-        price: 16,
-        url: "https://plus.unsplash.com/premium_photo-1682096340835-022e6647b698?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      },
-      {
-        category: "prod-jaqueta",
-        desc: "couro",
-        id: "1723171214825",
-        name: "jaqueta",
-        price: 56,
-        url: "https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?q=80&w=1492&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      },
-      {
-        category: "prod-tenis",
-        desc: "usado - 39",
-        id: "1723171224377",
-        name: "tênis",
-        price: 32,
-        url: "https://images.unsplash.com/photo-1534211269469-314ffbac5b34?q=80&w=1769&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      },
-      {
-        category: "prod-calca",
-        desc: "rasgada",
-        id: "1723171239881",
-        name: "calça jeans",
-        price: 78,
-        url: "https://images.unsplash.com/photo-1520516668418-3661351e2e54?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      },
-    ];
-
+    const list =
+      JSON.parse(localStorage.getItem("localProductList")) || baseProducts;
     // Função que salva as listas no localStorage ------------------------------
     function saveToLocalStorage() {
       localStorage.setItem("localProductList", JSON.stringify(list));
@@ -411,6 +445,17 @@
       });
 
       // Rotaciona os produtos da aba 'Em Alta' //
+      const boomingProducts = [];
+      while (boomingProducts.length < 5) {
+        const randProduct = Math.floor(Math.random() * list.length);
+        if (!boomingProducts.includes(list[randProduct])) {
+          boomingProducts.push(list[randProduct]);
+        }
+      }
+      boomingProducts.forEach((product) => {
+        product.booming = true;
+        addProduct(product);
+      });
     });
 
     // Ouvinte do Formulário ---------------------------------------------------
@@ -423,6 +468,7 @@
         desc: frm.inDesc.value,
         price: Number(frm.inPrice.value),
         category: frm.inCategory.value,
+        booming: false,
         url: frm.inUrl.value === "" ? "/public/blank.png" : frm.inUrl.value,
       };
       list.push(product);
@@ -483,6 +529,11 @@
         return;
       }
 
+      if (prod.booming) {
+        document.getElementById("prod-booming").appendChild(newProd);
+        return;
+      }
+
       categories.forEach((category) => {
         if (prod.category === category) {
           document.getElementById(category).appendChild(newProd);
@@ -512,5 +563,28 @@
       saveCartToLocalStorage();
       shopCart.removeChild(product);
     }
+
+    // Animações com JS --------------------------------------------------------
+    const openShop = document.getElementById("open-shop"),
+      closeShop = document.getElementById("close-shop"),
+      openAnnounce = document.getElementById("open-announce"),
+      closeAnnounce = document.getElementById("close-announce"),
+      shop = document.getElementById("shop"),
+      announce = document.getElementById("announce"),
+      fade = document.querySelector("#fade");
+
+    const toggleShop = () => {
+      [shop, fade].forEach((el) => el.classList.toggle("hidden"));
+    };
+    const toggleAnnounce = () => {
+      [announce, fade].forEach((el) => el.classList.toggle("hidden"));
+    };
+
+    [openShop, closeShop, fade].forEach((el) => {
+      el.addEventListener("click", () => toggleShop());
+    });
+    [openAnnounce, closeAnnounce, fade].forEach((el) => {
+      el.addEventListener("click", () => toggleAnnounce());
+    });
   </script>
 </html>
