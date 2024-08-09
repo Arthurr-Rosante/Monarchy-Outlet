@@ -14,6 +14,7 @@
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
 
+      /* General Styling */
       * {
         margin: 0;
         padding: 0;
@@ -34,6 +35,7 @@
         display: block;
         max-width: 100%;
       }
+      /* General Styling End */
 
       /* header */
       .logo {
@@ -49,7 +51,7 @@
         height: 8rem;
       }
 
-      .header {
+      header {
         max-width: 100vw;
       }
 
@@ -101,22 +103,22 @@
         opacity: 1;
       }
 
-      .header-content > .features {
+      .header-content > .navigate {
         padding: 0.5rem;
         display: flex;
         flex-wrap: nowrap;
         column-gap: 1rem;
       }
-      .header-content > .features > a {
+      .header-content > .navigate > a {
         color: rgb(0, 0, 0);
         font-size: 1.2rem;
         transition: all 250ms ease-out;
       }
-      .header-content > .features > a:hover {
+      .header-content > .navigate > a:hover {
         opacity: 0.5;
       }
 
-      .header-content > .features > hr {
+      .header-content > .navigate > hr {
         width: 2px;
         border: none;
         border-radius: 10rem;
@@ -149,29 +151,32 @@
         color: white;
       }
 
-      .header > .hero {
+      header > .hero {
         width: 100vw;
         height: 50vh;
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
       }
       /* header end */
 
       /* Product Card */
       .product-card {
-        background-color: #001220;
-        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-        border-radius: 1rem;
+        background-color: white;
+        border-radius: 1rem 1rem 0 0;
         padding-bottom: 1rem;
         display: flex;
         flex-direction: column;
         flex-wrap: nowrap;
-        width: max(12rem, 15rem);
+        width: 15rem;
         aspect-ratio: 1/1.5;
+        transition: all 200ms ease-out;
       }
+
       .product-card > img {
         border-radius: 1rem 1rem 0 0;
         transition: all 200ms ease-out;
         aspect-ratio: 240/240;
         object-fit: cover;
+        cursor: pointer;
       }
       .product-card > img:hover {
         scale: 1.05;
@@ -184,13 +189,13 @@
         text-transform: capitalize;
         font-weight: 400;
         letter-spacing: 5px;
-        color: #f2f2f2;
+        color: black;
       }
 
       .product-card > p {
         text-align: center;
         font-size: 0.8rem;
-        color: rgba(255, 255, 255, 0.7);
+        color: rgba(0, 0, 0, 0.7);
         padding: 0 1rem;
       }
 
@@ -198,27 +203,20 @@
         text-align: center;
         font-weight: bold;
         margin-bottom: 1rem;
-        color: #f2f2f2;
+        color: black;
       }
-
-      .product-card > .btnContainer {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        column-gap: 1rem;
-      }
-      .product-card > .btnContainer > button {
+      .product-card > button {
         padding: 0.6rem 1rem;
         border: none;
         border-radius: 1rem;
         cursor: pointer;
         transition: all 150ms ease-in-out;
       }
-      .product-card > .btnContainer > .buyBtn:hover {
+      .product-card > .buyBtn:hover {
         background-color: seagreen;
         color: white;
       }
-      .product-card > .btnContainer > .removeBtn:hover {
+      .product-card > .removeBtn:hover {
         background-color: orangered;
         color: white;
       }
@@ -226,34 +224,36 @@
       /* Product Card End */
 
       /* main sections */
-      .prod-section {
-        width: 90%;
-        margin: 1.2rem auto;
+      main {
+        padding: 0 2rem;
       }
 
-      .prod-section > h1 {
-        font-size: 3rem;
-        text-transform: uppercase;
-        text-align: center;
-        color: #001220;
-        margin: 2rem 0;
+      .prod-section {
+        margin: 1rem auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .prod-section > .title {
+        font-size: 2.7rem;
+        margin-bottom: 1rem;
       }
 
       .prod-section > ul {
-        list-style: none;
+        width: 90%;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        gap: 1.2rem;
-        padding: 1rem 1.2rem;
+        gap: 1rem;
       }
       /* main sections end */
     </style>
   </head>
   <body>
-    <header class="header">
+    <header>
       <div class="header-content">
-        <img src="/public/logo-2.png" alt="monarchy-logo" class="logo" />
+        <img class="logo" src="/public/logo-2.png" alt="monarchy-logo" />
         <div class="search-input">
           <input
             type="search"
@@ -263,58 +263,72 @@
           />
           <i class="fa fa-magnifying-glass"></i>
         </div>
-        <div class="features">
-          <a href="#addProd">
+        <div class="navigate">
+          <a href="#announce">
             <i class="fa fa-plus"></i>
           </a>
           <hr />
-          <a href="#shopcart">
+          <a href="#shop">
             <i class="fa-solid fa-cart-shopping"></i>
           </a>
         </div>
       </div>
       <nav>
         <ul class="navbar">
-          <li><a href="#prodCamiseta">Camiseta</a></li>
-          <li><a href="#prodJaqueta">Jaqueta</a></li>
-          <li><a href="#prodCalca">Calça</a></li>
-          <li><a href="#prodTenis">Tênis</a></li>
+          <li><a href="#section-camiseta">Camiseta</a></li>
+          <li><a href="#section-jaqueta">Jaqueta</a></li>
+          <li><a href="#section-calca">Calça</a></li>
+          <li><a href="#section-tenis">Tênis</a></li>
         </ul>
       </nav>
-      <img src="/public/slider2.png" alt="hero" class="hero" />
+      <img class="hero" src="/public/slider1.png" alt="hero" />
     </header>
+
     <main>
+      <!-- Em Alta -->
       <section class="prod-section">
         <h1 class="title">Em Alta</h1>
-        <ul id="products"></ul>
+        <ul id="prod-booming"></ul>
       </section>
-      <section class="prod-section">
+      <!-- Camisetas -->
+      <section class="prod-section" id="section-camiseta">
         <h1 class="title">Camisetas</h1>
-        <ul class="prod-camisetas" id="prodCamiseta"></ul>
+        <ul id="prod-camiseta"></ul>
       </section>
-      <section class="prod-section">
+      <!-- Jaquetas -->
+      <section class="prod-section" id="section-jaqueta">
         <h1 class="title">Jaquetas</h1>
-        <ul class="prod-jaquetas" id="prodJaqueta"></ul>
+        <ul id="prod-jaqueta"></ul>
       </section>
-      <section class="prod-section">
+      <!-- Calças -->
+      <section class="prod-section" id="section-calca">
         <h1 class="title">Calças</h1>
-        <ul class="prod-calcas" id="prodCalca"></ul>
+        <ul id="prod-calca"></ul>
       </section>
-      <section class="prod-section">
+      <!-- Tênis -->
+      <section class="prod-section" id="section-tenis">
         <h1 class="title">Tênis</h1>
-        <ul class="prod-tenis" id="prodTenis"></ul>
+        <ul id="prod-tenis"></ul>
       </section>
     </main>
-    <div class="cart" id="shopcart">
+
+    <div class="cart" id="shop">
       <h1>Seu Carrinho:</h1>
       <ul id="shopCart"></ul>
     </div>
-    <div class="create-product" id="addProd">
+    <div class="announce-product" id="announce">
       <h1>Anúncie seu produto</h1>
       <form>
         <input type="text" id="inUrl" placeholder="Imagem (url)" />
         <input type="text" id="inName" required placeholder="Nome" />
         <input type="text" id="inDesc" required placeholder="Descrição" />
+        <select name="category" id="inCategory" required>
+          <option value="" disabled selected>Categoria</option>
+          <option value="prod-camiseta">Camiseta</option>
+          <option value="prod-jaqueta">Jaqueta</option>
+          <option value="prod-calca">Calça</option>
+          <option value="prod-tenis">Tênis</option>
+        </select>
         <input
           type="number"
           id="inPrice"
@@ -327,30 +341,78 @@
     </div>
   </body>
   <script>
-    // código ...
     const frm = document.querySelector("form");
-    const prodList = document.getElementById("products");
-    const shopCart = document.getElementById("shopCart");
+    const categories = [
+      "prod-camiseta",
+      "prod-jaqueta",
+      "prod-calca",
+      "prod-tenis",
+    ];
 
-    const list = JSON.parse(localStorage.getItem("localProductList")) || [];
     const shopList = JSON.parse(localStorage.getItem("localShopList")) || [];
+    const list = JSON.parse(localStorage.getItem("localProductList")) || [
+      {
+        category: "prod-camiseta",
+        desc: "amarela",
+        id: "1723171207457",
+        name: "camiseta",
+        price: 12,
+        url: "https://plus.unsplash.com/premium_photo-1693161218349-87523b0605ab?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      },
+      {
+        category: "prod-camiseta",
+        desc: "branca",
+        id: "1723171251129",
+        name: "camiseta",
+        price: 16,
+        url: "https://plus.unsplash.com/premium_photo-1682096340835-022e6647b698?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      },
+      {
+        category: "prod-jaqueta",
+        desc: "couro",
+        id: "1723171214825",
+        name: "jaqueta",
+        price: 56,
+        url: "https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?q=80&w=1492&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      },
+      {
+        category: "prod-tenis",
+        desc: "usado - 39",
+        id: "1723171224377",
+        name: "tênis",
+        price: 32,
+        url: "https://images.unsplash.com/photo-1534211269469-314ffbac5b34?q=80&w=1769&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      },
+      {
+        category: "prod-calca",
+        desc: "rasgada",
+        id: "1723171239881",
+        name: "calça jeans",
+        price: 78,
+        url: "https://images.unsplash.com/photo-1520516668418-3661351e2e54?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      },
+    ];
 
-    // Função que salva a lista no localStorage do navegador -------------------
+    // Função que salva as listas no localStorage ------------------------------
     function saveToLocalStorage() {
       localStorage.setItem("localProductList", JSON.stringify(list));
     }
     function saveCartToLocalStorage() {
       localStorage.setItem("localShopList", JSON.stringify(shopList));
     }
+
     // Função que carrega os produtos já cadastrados ---------------------------
     window.addEventListener("load", () => {
       list.forEach((product) => {
-        addProduct(product, prodList);
+        addProduct(product);
       });
       shopList.forEach((product) => {
-        addProduct(product, shopCart);
+        addProduct(product, true);
       });
+
+      // Rotaciona os produtos da aba 'Em Alta' //
     });
+
     // Ouvinte do Formulário ---------------------------------------------------
     frm.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -360,24 +422,26 @@
         name: frm.inName.value,
         desc: frm.inDesc.value,
         price: Number(frm.inPrice.value),
+        category: frm.inCategory.value,
         url: frm.inUrl.value === "" ? "/public/blank.png" : frm.inUrl.value,
       };
       list.push(product);
       saveToLocalStorage();
-      addProduct(product, prodList);
-      //Limpando o Form após envio dos dados
+      addProduct(product);
+
+      //Limpando o Form após envio dos dados //
       frm.inName.value = "";
       frm.inDesc.value = "";
       frm.inPrice.value = "";
     });
+
     // Função que adiciona o produto à lista -----------------------------------
-    function addProduct(prod, arr) {
+    function addProduct(prod, cart) {
+      cart ? true : false;
       const newProd = document.createElement("li");
       newProd.classList.add("product-card");
 
-      const btnDiv = document.createElement("div");
-      btnDiv.classList.add("btnContainer");
-      //Product-Card Props ----------------------------//
+      // Elementos do Product-card //
       const prodName = document.createElement("h2");
       prodName.textContent = prod.name;
 
@@ -391,63 +455,62 @@
       prodImg.src = prod.url;
       prodImg.alt = prod.name;
 
-      if (arr == shopCart) {
-        const removeBtn = document.createElement("button");
-        removeBtn.classList.add("removeBtn");
-        removeBtn.innerHTML = '<i class="fa fa-x"></i> Remove';
-        removeBtn.addEventListener("click", () => {
-          arr === prodList
-            ? handleDelete(newProd, prod.id)
-            : handleCartDelete(newProd, prod.id);
+      const button = document.createElement("button");
+      if (cart) {
+        button.classList.add("removeBtn");
+        button.innerHTML = '<i class="fa fa-x"></i> Remove';
+        button.addEventListener("click", () => {
+          handleDelete(newProd, prod.id);
         });
-        btnDiv.appendChild(removeBtn);
-      }
-
-      if (arr !== shopCart) {
-        const buyBtn = document.createElement("button");
-        buyBtn.classList.add("buyBtn");
-        buyBtn.innerHTML = '<i class="fa-solid fa-cart-plus"></i> Add to Cart';
-        buyBtn.addEventListener("click", () => {
+      } else {
+        button.classList.add("buyBtn");
+        button.innerHTML = '<i class="fa-solid fa-cart-plus"></i> Add to Cart';
+        button.addEventListener("click", () => {
           addProductToCart(prod);
         });
-        btnDiv.appendChild(buyBtn);
       }
 
-      // Appending Props
-
+      // Posicionando os elementos //
       newProd.appendChild(prodImg);
       newProd.appendChild(prodName);
       newProd.appendChild(prodDesc);
       newProd.appendChild(prodPrice);
-      newProd.appendChild(btnDiv);
+      newProd.appendChild(button);
 
-      arr.appendChild(newProd);
+      // Verificando aonde adicionar o Product-card //
+      if (cart) {
+        document.getElementById("shopCart").appendChild(newProd);
+        return;
+      }
+
+      categories.forEach((category) => {
+        if (prod.category === category) {
+          document.getElementById(category).appendChild(newProd);
+        } else {
+          return;
+        }
+      });
     }
-    // Função que remove um produto da lista -----------------------------------
+
+    // Função que adiciona o produto ao carrinho -------------------------------
+    function addProductToCart(product) {
+      const exists = shopList.find((prod) => prod.id === product.id);
+      if (exists) {
+        return;
+      }
+
+      shopList.push(product);
+      saveCartToLocalStorage();
+      addProduct(product, true);
+    }
+
+    // Função que remove um produto do carrinho --------------------------------
     function handleDelete(product, idToRemove) {
-      const index = list.findIndex((el) => el.id === idToRemove);
-      list.splice(index, 1);
-
-      saveToLocalStorage();
-      prodList.removeChild(product);
-    }
-    function handleCartDelete(product, idToRemove) {
       const index = shopList.findIndex((el) => el.id === idToRemove);
       shopList.splice(index, 1);
 
       saveCartToLocalStorage();
       shopCart.removeChild(product);
     }
-    // Função que adiciona um produto ao carrinho ------------------------------
-    function addProductToCart(product) {
-      const exists = shopList.find((prod) => prod.id === product.id);
-      if (exists) {
-        return;
-      }
-      shopList.push(product);
-      saveCartToLocalStorage();
-      addProduct(product, shopCart);
-    }
-    //--------------------------------------------------------------------------
   </script>
 </html>
