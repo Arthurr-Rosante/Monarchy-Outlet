@@ -162,32 +162,32 @@
       /* header end */
 
       /* Product Card */
-      .product-card {
+      .prod-section > ul > .product-card {
         background-color: white;
         border-radius: 1rem 1rem 0 0;
         padding-bottom: 1rem;
         display: flex;
         flex-direction: column;
-        flex-wrap: nowrap;
+        justify-content: space-between;
 
         max-width: 15rem;
-        aspect-ratio: 1/1.5;
+        aspect-ratio: 1/1.8;
         transition: all 200ms ease-out;
       }
 
-      .product-card > img {
+      .prod-section > ul > .product-card > img {
         border-radius: 1rem 1rem 0 0;
         transition: all 200ms ease-out;
         aspect-ratio: 240/240;
         object-fit: cover;
         cursor: pointer;
       }
-      .product-card > img:hover {
+      .prod-section > ul > .product-card > img:hover {
         scale: 1.05;
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
       }
 
-      .product-card > h2 {
+      .prod-section > ul > .product-card > h2 {
         width: 100%;
         margin: 1rem auto;
         margin-bottom: 0.2rem;
@@ -202,31 +202,37 @@
         overflow: hidden;
       }
 
-      .product-card > p {
+      .prod-section > ul > .product-card > p {
         text-align: center;
         font-size: 0.8rem;
         color: rgba(0, 0, 0, 0.7);
         padding: 0 0.5rem;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* Limits to 3 lines */
+        -webkit-box-orient: vertical;
       }
 
-      .product-card > span {
+      .prod-section > ul > .product-card > span {
         text-align: center;
         font-weight: bold;
         margin-bottom: 1rem;
         color: black;
       }
-      .product-card > button {
+      .prod-section > ul > .product-card > button {
         padding: 0.6rem 0;
         border: none;
         border-radius: 1rem;
         cursor: pointer;
         transition: all 150ms ease-in-out;
       }
-      .product-card > .buyBtn:hover {
+      .prod-section > ul > .product-card > .buyBtn:hover {
         background-color: seagreen;
         color: white;
       }
-      .product-card > .removeBtn:hover {
+      .prod-section > ul > .product-card > .removeBtn:hover {
         background-color: orangered;
         color: white;
       }
@@ -258,19 +264,22 @@
       }
       /* main sections end */
 
-      /* Announce & Cart section */
+      /* Announce & Shop section */
+      .hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+
       #fade {
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        inset: 0;
+        background: transparent;
         backdrop-filter: blur(10px);
         z-index: 5;
       }
-
-      #shop,
-      #announce {
+      #announce,
+      #shop {
+        background-color: white;
         position: fixed;
         left: 50%;
         top: 50%;
@@ -282,6 +291,178 @@
         padding: 1.2rem;
         border-radius: 0.5rem;
         z-index: 10;
+
+        display: flex;
+        flex-direction: column;
+      }
+      #announce > h1 {
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+
+      #announce > form {
+        padding: 1rem;
+        width: 90%;
+
+        display: flex;
+        flex-direction: column;
+        row-gap: 1rem;
+        align-self: center;
+        margin-bottom: 1.2rem;
+      }
+
+      #announce > form > * {
+        width: 80%;
+        align-self: center;
+        border: 3px solid transparent;
+      }
+      #announce > form > *:hover,
+      #announce > form > *:focus {
+        border: 3px solid black;
+      }
+
+      #announce > form > input {
+        background-color: #f2f2f2;
+        padding: 0.5rem 1.2rem;
+        border-radius: 2rem;
+        outline: none;
+        transition: all 250ms ease-out;
+      }
+
+      #announce > form > textarea {
+        background-color: #f2f2f2;
+        outline: none;
+        border-radius: 0.2rem;
+        max-width: 80%;
+        min-width: 80%;
+        max-height: 2.5rem;
+        padding: 0.2rem 0.5rem;
+      }
+      #announce > form > select {
+        background-color: #f2f2f2;
+        padding: 0.5rem 1.2rem;
+        border-radius: 0.2rem;
+      }
+
+      #announce > form > button {
+        margin-top: 1rem;
+        background-color: rgb(39, 186, 103);
+        color: white;
+        font-weight: bold;
+        letter-spacing: 1px;
+        padding: 0.5rem 0;
+        font-size: 1.1rem;
+        border: none;
+        border-radius: 2rem;
+        cursor: pointer;
+        transition: all 150ms ease-out;
+      }
+      #announce > form > button:hover {
+        border: none;
+        background-color: seagreen;
+      }
+
+      #announce > #close-announce,
+      #shop > #close-shop {
+        position: absolute;
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+        aspect-ratio: 1;
+        border-radius: 100%;
+        border: none;
+        cursor: pointer;
+        transition: all 150ms ease-in-out;
+      }
+      #announce > #close-announce:hover,
+      #shop > #close-shop:hover {
+        background-color: orangered;
+        color: white;
+      }
+
+      #shop {
+        min-width: 90%;
+        min-height: 90%;
+      }
+
+      #shop > hr {
+        margin: 0.5rem 0;
+        width: 95%;
+        align-self: center;
+      }
+
+      #shop > h1 {
+        align-self: center;
+      }
+
+      #shop > #shopCart {
+        width: 90%;
+        align-self: center;
+        padding: 1.2rem 1rem 1.2rem 0;
+        height: 32rem;
+        overflow-y: scroll;
+      }
+      #shop > #shopCart > .product-card {
+        list-style: none;
+        min-height: 15rem;
+
+        display: grid;
+        grid-template-columns: 20% 1fr 1fr 1fr 1fr;
+        place-items: center;
+        padding: 0.5rem 0;
+        border-bottom: 3px solid rgba(0, 0, 0, 0.5);
+      }
+      #shop > #shopCart > .product-card > img {
+        object-fit: cover;
+        aspect-ratio: 1/1.2;
+        height: 15rem;
+        place-self: start;
+      }
+      #shop > #shopCart > .product-card > h2 {
+        letter-spacing: 5px;
+        text-transform: capitalize;
+        font-weight: 400;
+      }
+      #shop > #shopCart > .product-card > p {
+        color: rgba(0, 0, 0, 0.7);
+      }
+      #shop > #shopCart > .product-card > span {
+        color: black;
+        font-weight: bold;
+      }
+      #shop > #shopCart > .product-card > button {
+        padding: 0.6rem 1rem;
+        border: none;
+        border-radius: 0.2rem;
+        cursor: pointer;
+        transition: all 150ms ease-in-out;
+      }
+      #shop > #shopCart > .product-card > button:hover {
+        color: white;
+        background-color: orangered;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      #shop > div {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+      }
+
+      #shop > div > #subTotal {
+        font-size: 1.2rem;
+        font-weight: bolder;
+        text-transform: uppercase;
+      }
+      #shop > div > .buy-button {
+        padding: 1rem 1.2rem;
+        border: none;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: all 150ms ease-in-out;
+      }
+      #shop > div > .buy-button:hover {
+        background-color: seagreen;
+        color: white;
       }
 
       #fade,
@@ -303,7 +484,7 @@
       #announce.hidden {
         top: 0;
       }
-      /* Announce & Cart section End */
+      /* Announce & Shop section End */
     </style>
   </head>
   <body>
@@ -370,16 +551,23 @@
 
     <div id="fade" class="hidden"></div>
 
-    <div class="cart hidden" id="shop">
+    <div class="hidden" id="shop">
       <h1>Seu Carrinho:</h1>
+      <hr />
       <ul id="shopCart"></ul>
+      <hr />
+      <div>
+        <span id="subTotal">subtotal R$00,00 brl</span>
+        <button class="buy-button">
+          finalizar compra <i class="fa fa-arrow-right"></i>
+        </button>
+      </div>
       <button id="close-shop">
         <i class="fa fa-x"></i>
-        Fechar
       </button>
     </div>
 
-    <div class="announce-product hidden" id="announce">
+    <div class="hidden" id="announce">
       <h1>Anúncie seu produto</h1>
       <form>
         <input type="text" id="inUrl" placeholder="Imagem (url)" />
@@ -409,7 +597,6 @@
       </form>
       <button id="close-announce">
         <i class="fa fa-x"></i>
-        Fechar
       </button>
     </div>
   </body>
@@ -417,6 +604,7 @@
     import { baseProducts } from "./products.js";
 
     const frm = document.querySelector("form");
+    const subTotal = document.querySelector("#subTotal");
     const categories = [
       "prod-camiseta",
       "prod-jaqueta",
@@ -443,6 +631,12 @@
       shopList.forEach((product) => {
         addProduct(product, true);
       });
+
+      const subTotalPrice = shopList.reduce(
+        (acumulador, product) => acumulador + product.price,
+        0
+      );
+      subTotal.innerText = `subtotal R$${subTotalPrice.toFixed(2)} brl`;
 
       // Rotaciona os produtos da aba 'Em Alta' //
       const boomingProducts = [];
@@ -553,6 +747,12 @@
       shopList.push(product);
       saveCartToLocalStorage();
       addProduct(product, true);
+
+      const subTotalPrice = shopList.reduce(
+        (acumulador, product) => acumulador + product.price,
+        0
+      );
+      subTotal.innerText = `subtotal R$${subTotalPrice.toFixed(2)} brl`;
     }
 
     // Função que remove um produto do carrinho --------------------------------
@@ -562,6 +762,12 @@
 
       saveCartToLocalStorage();
       shopCart.removeChild(product);
+
+      const subTotalPrice = shopList.reduce(
+        (acumulador, product) => acumulador + product.price,
+        0
+      );
+      subTotal.innerText = `subtotal R$${subTotalPrice.toFixed(2)} brl`;
     }
 
     // Animações com JS --------------------------------------------------------
@@ -580,10 +786,10 @@
       [announce, fade].forEach((el) => el.classList.toggle("hidden"));
     };
 
-    [openShop, closeShop, fade].forEach((el) => {
+    [openShop, closeShop].forEach((el) => {
       el.addEventListener("click", () => toggleShop());
     });
-    [openAnnounce, closeAnnounce, fade].forEach((el) => {
+    [openAnnounce, closeAnnounce].forEach((el) => {
       el.addEventListener("click", () => toggleAnnounce());
     });
   </script>
