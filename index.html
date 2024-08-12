@@ -154,10 +154,24 @@
         color: white;
       }
 
-      header > .hero {
+      header > .carousel {
         width: 100vw;
-        height: 50vh;
+        height: 300px;
         box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+      }
+
+      .carousel > .heroContainer {
+        transition: transform 0.5s ease-in-out;
+        transform: translate(0);
+        display: grid;
+        grid-template-columns: repeat(4, 100%);
+      }
+
+      .heroContainer > .hero {
+        width: 100vw;
+        height: 300px;
+        object-fit: cover;
       }
       /* header end */
 
@@ -211,6 +225,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
+        line-clamp: 2;
         -webkit-line-clamp: 2; /* Limits to 3 lines */
         -webkit-box-orient: vertical;
       }
@@ -518,7 +533,14 @@
           <li><a href="#section-tenis">Calçados</a></li>
         </ul>
       </nav>
-      <img class="hero" src="/public/slider1.png" alt="hero" />
+      <div class="carousel">
+        <div class="heroContainer">
+          <img src="/public/slider1.png" alt="" class="hero" />
+          <img src="/public/slider2.png" alt="" class="hero" />
+          <img src="/public/slider3.png" alt="" class="hero" />
+          <img src="/public/slider4.png" alt="" class="hero" />
+        </div>
+      </div>
     </header>
 
     <main>
@@ -605,6 +627,7 @@
 
     const frm = document.querySelector("form");
     const subTotal = document.querySelector("#subTotal");
+    const boomingList = document.getElementById("prod-booming");
     const categories = [
       "prod-camiseta",
       "prod-jaqueta",
@@ -626,6 +649,7 @@
     // Função que carrega os produtos já cadastrados ---------------------------
     window.addEventListener("load", () => {
       list.forEach((product) => {
+        product.booming = false;
         addProduct(product);
       });
       shopList.forEach((product) => {
@@ -670,14 +694,13 @@
       addProduct(product);
 
       //Limpando o Form após envio dos dados //
-      frm.inName.value = "";
-      frm.inDesc.value = "";
-      frm.inPrice.value = "";
+      frm.reset();
     });
 
     // Função que adiciona o produto à lista -----------------------------------
     function addProduct(prod, cart) {
       cart ? true : false;
+
       const newProd = document.createElement("li");
       newProd.classList.add("product-card");
 
@@ -720,21 +743,15 @@
       // Verificando aonde adicionar o Product-card //
       if (cart) {
         document.getElementById("shopCart").appendChild(newProd);
-        return;
+      } else if (prod.booming) {
+        boomingList.appendChild(newProd);
+      } else {
+        categories.forEach((category) => {
+          if (prod.category === category) {
+            document.getElementById(category).appendChild(newProd);
+          }
+        });
       }
-
-      if (prod.booming) {
-        document.getElementById("prod-booming").appendChild(newProd);
-        return;
-      }
-
-      categories.forEach((category) => {
-        if (prod.category === category) {
-          document.getElementById(category).appendChild(newProd);
-        } else {
-          return;
-        }
-      });
     }
 
     // Função que adiciona o produto ao carrinho -------------------------------
@@ -792,5 +809,17 @@
     [openAnnounce, closeAnnounce].forEach((el) => {
       el.addEventListener("click", () => toggleAnnounce());
     });
+
+    const heroContainer = document.querySelector(".heroContainer");
+    const heros = document.querySelectorAll(".hero");
+    let index = 0;
+    setInterval(() => {
+      index++;
+      if (index > heros.length - 1) {
+        index = 0;
+      }
+
+      heroContainer.style.transform = `translateX(${-index * window.innerWidth}px)`;
+    }, 3000);
   </script>
 </html>
