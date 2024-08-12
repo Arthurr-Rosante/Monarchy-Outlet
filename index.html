@@ -695,6 +695,9 @@
 
       //Limpando o Form após envio dos dados //
       frm.reset();
+      [announce, fade].forEach((el) => {
+        el.classList.toggle("hidden");
+      });
     });
 
     // Função que adiciona o produto à lista -----------------------------------
@@ -819,7 +822,9 @@
         index = 0;
       }
 
-      heroContainer.style.transform = `translateX(${-index * window.innerWidth}px)`;
+      heroContainer.style.transform = `translateX(${
+        -index * window.innerWidth
+      }px)`;
     }, 3000);
   </script>
 </html>
